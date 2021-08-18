@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RedditAPIClient: RedditAPIClientProtocol{
+class RedditAPIClient: RedditAPIClientProtocol {
     // MARK: - Properties
     
     static let shared = RedditAPIClient()
@@ -16,7 +16,7 @@ class RedditAPIClient: RedditAPIClientProtocol{
     private init() { }
 
     // MARK: - Methods
-    
+    /// Executes API request
     func executeRequest(with endpoint: RedditEndPointType, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = endpoint.finalURL else {
             let result: Result<Data, Error> = .failure(RedditAPIClientError.cannotFormURL)
@@ -30,18 +30,16 @@ class RedditAPIClient: RedditAPIClientProtocol{
         if (endpoint.httpMethod == .put || endpoint.httpMethod == .post),
             let parameters = endpoint.parameters {
             let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+            
             request.httpBody = jsonData
         }
 
         request.addValue(endpoint.contentType, forHTTPHeaderField: "Content-Type")
 
         apiSession.executeDataTask(with: request) { (data, response, error) in
-            guard
-                let httpResponse = response as? HTTPURLResponse,
-                httpResponse.statusCode == 200
-                else {
-                    completion(.failure(RedditAPIClientError.serverError))
-                    return
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(RedditAPIClientError.serverError))
+                return
             }
 
             if let error = error {
@@ -53,6 +51,7 @@ class RedditAPIClient: RedditAPIClientProtocol{
                 completion(.failure(RedditAPIClientError.unknown))
                 return
             }
+            
             completion(.success(data))
         }
     }

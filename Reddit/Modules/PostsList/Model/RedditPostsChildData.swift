@@ -27,7 +27,7 @@ struct RedditPostsChildData: Decodable {
         score = try values.decode(Int.self, forKey: .score)
         numComments = try values.decode(Int.self, forKey: .numComments)
         thumbnail = try values.decode(String.self, forKey: .thumbnail)
-        thumbnailWidth = try values.decodeIfPresent(Int.self, forKey: .thumbnailWidth)
-        thumbnailHeight = try values.decodeIfPresent(Int.self, forKey: .thumbnailHeight)
+        thumbnailWidth = try values.decodeIfPresent(Int.self, forKey: .thumbnailWidth) /// Handles Null value
+        thumbnailHeight = try values.decodeIfPresent(Int.self, forKey: .thumbnailHeight) /// Handles Null value
     }
 }

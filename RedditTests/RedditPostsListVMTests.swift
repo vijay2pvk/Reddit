@@ -70,8 +70,8 @@ class RedditPostsListVMTests: XCTestCase {
 
         let expectedModel = sut.viewModelForItem(at: IndexPath(row: 0, section: 0))
         XCTAssertEqual(expectedModel?.title, "GOP Removes Page Praising Donald Trump's 'Historic' Peace Deal With Taliban")
-        XCTAssertEqual(expectedModel?.score, "24.8k")
-        XCTAssertEqual(expectedModel?.numComment, "1.2k")
+        XCTAssertEqual(expectedModel?.score, "24.8K")
+        XCTAssertEqual(expectedModel?.numComment, "1.2K")
         XCTAssertEqual(expectedModel?.thumbnail , "https://b.thumbs.redditmedia.com/RmJjCnId4iQLC2Ujz3Lf1Gb0rzYMrFPlhQHNLzaiBPA.jpg")
         XCTAssertEqual(expectedModel?.imgAspectRatio, 1.5)
     }

@@ -11,7 +11,7 @@ protocol RedditPostsServicesRequestType {
 
 /*** Posts Api Services */
 class RedditPostsServices: RedditPostsServicesRequestType {
-    let apiClient: RedditAPIClientProtocol
+    private let apiClient: RedditAPIClientProtocol
 
     init(apiClient: RedditAPIClientProtocol) {
         self.apiClient = apiClient
@@ -23,8 +23,8 @@ class RedditPostsServices: RedditPostsServicesRequestType {
             case .failure(let error):
                 return completion(.failure(error))
             case .success(let data):
-                let transformedResult = RedditJsonToModelTransformer.convert(data: data, to: RedditPosts.self)
-                return completion(transformedResult)
+                let parsedResult = RedditJsonParser.convert(data: data, to: RedditPosts.self)
+                return completion(parsedResult)
             }
         }
     }

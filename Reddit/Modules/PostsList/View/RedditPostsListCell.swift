@@ -13,7 +13,7 @@ class RedditPostsListCell: UITableViewCell, RedditReusable {
     /// The container view holds all the elements present in the cell.
     let containerView: UIStackView = {
         let view = UIStackView.makeAutoLayoutView()
-        view.backgroundColor = UIColor.RedditColor.postsListCellContainerViewBgColor
+        view.backgroundColor = UIColor.RedditPostsListColor.postsListCellContainerViewBgColor
         view.alignment = .fill
         view.axis = .vertical
         return view
@@ -21,21 +21,20 @@ class RedditPostsListCell: UITableViewCell, RedditReusable {
     
     ///  Widget view which holds scores & comments number
     let postWidgetView: RedditPostsWidget = {
-        let view = RedditPostsWidget(score: "", numComment: "")
+        let view = RedditPostsWidget(score: nil, numComment: nil)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return view
     }()
     
     let titleLabel: UILabel = {
-        let label = UILabel.makeAutoLayoutView()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.numberOfLines = 0
-        label.textAlignment = .left
-        label.textColor = UIColor.RedditColor.postsListCellTitleColor
+        let label = UILabel.makeAutoLayoutView().setProperties(color: UIColor.RedditPostsListColor.postsListCellTitleColor,
+                                                               font: UIFont.boldSystemFont(ofSize: 16),
+                                                               lines: 0,
+                                                               alignment: .left)
         return label
     }()
-    
+
     let postImageView: RedditImageView = {
         let imageView = RedditImageView.makeAutoLayoutView()
         imageView.contentMode = .scaleAspectFill
@@ -89,7 +88,7 @@ class RedditPostsListCell: UITableViewCell, RedditReusable {
 // View layoutting methods are grouped here.
 private extension RedditPostsListCell {
     func setupContentView() {
-        contentView.backgroundColor = UIColor.RedditColor.postsListCellContentBgColor
+        contentView.backgroundColor = UIColor.RedditPostsListColor.postsListCellContentBgColor
         setupContainer()
         setupTitleView()
         setupPostImageView()
@@ -101,7 +100,7 @@ private extension RedditPostsListCell {
         let viewInfo = ["containerView": containerView]
         NSLayoutConstraint.activate(
             [
-                NSLayoutConstraint.constraints(withVisualFormat: "V:|-(8)-[containerView]-(8)-|",
+                NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[containerView]-(10)-|",
                                                options: [],
                                                metrics: nil,
                                                views: viewInfo),

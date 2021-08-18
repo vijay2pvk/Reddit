@@ -17,7 +17,7 @@ class RedditMockPostsListGenerator: XCTestCase {
     }
     
     class func getPosts() -> RedditPosts? {
-        let result = RedditJsonToModelTransformer.convert(data: getData(fileName: "PostsList", type: "json"), to: RedditPosts.self)
+        let result = RedditJsonParser.convert(data: getData(fileName: "PostsList", type: "json"), to: RedditPosts.self)
         switch result {
         case .failure:
             return nil

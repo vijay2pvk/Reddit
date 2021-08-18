@@ -16,7 +16,7 @@ class RedditPostsListVC: UIViewController, RedditAlertPresentable {
     var tableView: UITableView = {
         let tableView = UITableView.makeAutoLayoutView()
         tableView.register(cellType: RedditPostsListCell.self)
-        tableView.backgroundColor = UIColor.RedditColor.postsListTableBgColor
+        tableView.backgroundColor = UIColor.RedditPostsListColor.postsListTableBgColor
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -40,15 +40,16 @@ class RedditPostsListVC: UIViewController, RedditAlertPresentable {
         activityIndicator = RedditActivityIndicator(view: self.view)
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.RedditColor.navigationBarTitleColor]
-        self.view.backgroundColor = UIColor.RedditColor.viewBackgroundColor
+        self.view.backgroundColor = UIColor.RedditPostsListColor.postsListViewBackgroundColor
         self.title = localizedString(forKey: "postsListVC_Title")
     }
     
     private func setupTableView() {
         self.view.addSubview(tableView)
+        
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor.RedditColor.postsListTableBgColor
+        tableView.backgroundColor = UIColor.RedditPostsListColor.postsListTableBgColor
         tableView.separatorStyle = .none
         
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -84,6 +85,7 @@ extension RedditPostsListVC: UITableViewDelegate, UITableViewDataSource {
         ///  Create a CellVM & inject to configure method
         let cell: RedditPostsListCell = tableView.dequeueReusableCell(for: indexPath)
         let cellViewModel = self.viewModel.viewModelForItem(at: indexPath)
+        
         cell.configure(with: cellViewModel)
         return cell
     }
@@ -94,8 +96,7 @@ extension RedditPostsListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         /// Fetch more data
-        let lastElement = self.viewModel.postsCount() - 1
-        if indexPath.row == lastElement {
+        if self.viewModel.fetchMorePostsList(indexPath: indexPath) {
             self.fetchData()
         }
     }

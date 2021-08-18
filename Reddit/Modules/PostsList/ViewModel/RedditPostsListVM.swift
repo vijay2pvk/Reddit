@@ -8,18 +8,18 @@
 import Foundation
 
 protocol RedditPostsListRepresentable {
-    var afterLink: String? { get }
     func postsCount() -> Int
     func viewModelForItem(at indexPath: IndexPath) -> RedditPostsListCellVM?
     func fetchPostsList(completion: @escaping (Result<Void, Error>) -> Void)
+    func fetchMorePostsList(indexPath: IndexPath) -> Bool
 }
 
 class RedditPostsListVM: RedditPostsListRepresentable {
     // MARK:- Properties
     
     var service: RedditPostsServicesRequestType = RedditPostsServices(apiClient: RedditAPIClient.shared)
+    private var afterLink: String?
     private var postsList = [RedditPostsChildData]()
-    var afterLink: String?
 
     // MARK: - Functions
     
@@ -27,7 +27,7 @@ class RedditPostsListVM: RedditPostsListRepresentable {
         return postsList.count
     }
 
-    func viewModelForItem(at indexPath: IndexPath) -> RedditPostsListCellVM?{
+    func viewModelForItem(at indexPath: IndexPath) -> RedditPostsListCellVM? {
         let postsListVM = RedditPostsListCellVM(post: postsList[indexPath.row])
         return postsListVM
     }
@@ -53,6 +53,15 @@ class RedditPostsListVM: RedditPostsListRepresentable {
                 }
             }
         }
+    }
+    
+    // MARK: - Fetch more data
+    func fetchMorePostsList(indexPath: IndexPath) -> Bool {
+        let lastElement = self.postsCount() - 1
+        if indexPath.row == lastElement {
+            return true
+        }
+        return false
     }
 }
 

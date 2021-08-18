@@ -16,7 +16,7 @@ struct RedditPostsData: Decodable {
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        after = try values.decodeIfPresent(String.self, forKey: .after)
+        after = try values.decodeIfPresent(String.self, forKey: .after) /// Handles Null value
         posts = try values.decode([RedditPostsChild].self, forKey: .posts)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// All HTTP mmethods
+/// All HTTP methods
 enum RedditHTTPMethod: String {
     case delete = "DELETE"
     case get = "GET"
@@ -68,7 +68,7 @@ enum RedditPostsEndPoints: RedditEndPointType {
         return methodType
     }
     
-    var parameters: [String : Any]? {
+    var parameters: [String: Any]? {
         switch self {
         default:
             return nil
